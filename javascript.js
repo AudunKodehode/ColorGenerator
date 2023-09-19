@@ -16,46 +16,38 @@ const colorContainer = document.createElement("div");
 colorContainer.style.display = "flex";
 page.appendChild(colorContainer);
 
-let height = "90vh";
-let width = "20vw";
-
-function componentToHex(c) {
-  var hex = c.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
-}
-
-function rgbToHex(r, g, b) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
+let colorHeight = "90vh";
+let colorWidth = "20vw";
 
 for (let i = 5; i > 0; i--) {
-  let counter = `element${i}`;
-  counter = document.createElement("div");
-  counter.style.height = `${height}`;
-  counter.style.width = `${width}`;
-  let randomRed = Math.floor(Math.random() * 255);
-  let randomGreen = Math.floor(Math.random() * 255);
-  let randomBlue = Math.floor(Math.random() * 255);
-  let randomRGBColor = `rgb(${randomRed}, ${randomGreen}, ${randomBlue})`;
-  counter.style.backgroundColor = randomRGBColor;
-  colorContainer.appendChild(counter);
+  let colorSegment = `element${i}`;
+  colorSegment = document.createElement("div");
+  colorSegment.style.height = `${colorHeight}`;
+  colorSegment.style.width = `${colorWidth}`;
+  let randomR = Math.floor(Math.random() * 255);
+  let randomG = Math.floor(Math.random() * 255);
+  let randomB = Math.floor(Math.random() * 255);
+  let randomRGBColor = `rgb(${randomR}, ${randomG}, ${randomB})`;
+
+  colorSegment.style.backgroundColor = randomRGBColor;  
+  colorContainer.appendChild(colorSegment);
   let colorParagraph = document.createElement("p");
   colorParagraph.textContent = randomRGBColor;
-  counter.appendChild(colorParagraph);
-  counter.style.display = "flex";
-  counter.style.justifyContent = "center";
-  counter.style.alignItems = "center";
-  counter.style.flexDirection = "column";
-  let randomHEXColor = rgbToHex(randomRed, randomGreen, randomBlue);
+  colorSegment.appendChild(colorParagraph);
+  colorSegment.style.display = "flex";
+  colorSegment.style.justifyContent = "center";
+  colorSegment.style.alignItems = "center";
+  colorSegment.style.flexDirection = "column";
+  let randomHEXColor = rgbToHex(randomR, randomG, randomB);
   randomHEXColor = randomHEXColor.toUpperCase();
   let colorHexParagraph = document.createElement("p");
   colorHexParagraph.style.fontSize = "60px";
   colorParagraph.style.fontSize = "40px";
   colorHexParagraph.textContent = randomHEXColor;
-  counter.appendChild(colorHexParagraph);
+  colorSegment.appendChild(colorHexParagraph);
   let span = document.createElement("span");
-  counter.appendChild(span);
-  counter.addEventListener("click", function () {
+  colorSegment.appendChild(span);
+  colorSegment.addEventListener("click", function () {
     console.log(colorHexParagraph.textContent);
     navigator.clipboard.writeText(colorHexParagraph.textContent);
     span.style.backgroundColor = "white";
@@ -72,11 +64,19 @@ page.style.display = "flex";
 page.style.alignItems = "center";
 page.style.flexDirection = "column";
 
-header.style.color = "red";
-paragraph.style.color = "blue";
+header.style.color = "white";
+paragraph.style.color = "white";
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", function (event) {     // Lukter etter tastepress og oppdaterer siden når space trykkes
   if (event.key === " ") {
     location.reload();
   }
 });
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+  function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  }
