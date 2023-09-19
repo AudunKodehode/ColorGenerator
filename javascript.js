@@ -12,22 +12,69 @@ paragraph.textContent = "Click to copy color to clipboard / space to refresh";
 page.appendChild(paragraph);
 paragraph.style.height = "5vh";
 
+const buttonsContainer = document.createElement("div");
+page.appendChild(buttonsContainer);
+buttonsContainer.style.height = "5vh";
+
+let numberOfColors = 5;
+
+const lessButton = document.createElement("button");
+lessButton.textContent = "-";
+buttonsContainer.appendChild(lessButton);
+lessButton.addEventListener("click", function (event) {
+if (numberOfColors > 1) {
+lessColors();
+}
+});
+
+const generateButton = document.createElement("button");
+generateButton.textContent = "Generate";
+buttonsContainer.appendChild(generateButton);
+generateButton.addEventListener("click", function (event) {
+generateColors();
+});
+
+const moreButton = document.createElement("button");
+moreButton.textContent = "+";
+buttonsContainer.appendChild(moreButton);
+moreButton.addEventListener("click", function (event) {
+moreColors();
+});
+
 const colorContainer = document.createElement("div");
+colorContainer.id = "colorContainer";
 colorContainer.style.display = "flex";
 page.appendChild(colorContainer);
 
-let colorHeight = "90vh";
-let colorWidth = "20vw";
+function moreColors(){
+  if (numberOfColors < 16){
+    numberOfColors++
+    generateColors();
+    reportWindowSize();
+  }
+}
+function lessColors(){
+  if (numberOfColors > 1){
+    numberOfColors--
+    generateColors();
+    reportWindowSize();
+  }
+}
+
 
 function generateColors() {
   while (colorContainer.firstChild) {
     colorContainer.removeChild(colorContainer.firstChild);
   }
-  for (let i = 5; i > 0; i--) {
+  
+let colorHeight = "85vh";
+let colorWidth = ((window.innerWidth) / numberOfColors) + "px";
+  for (let i = numberOfColors; i > 0; i--) {
     let colorSegment = `element${i}`;
     colorSegment = document.createElement("div");
     colorSegment.style.height = `${colorHeight}`;
     colorSegment.style.width = `${colorWidth}`;
+    colorSegment.id = "colorSegment"
     let randomR = Math.floor(Math.random() * 255);
     let randomG = Math.floor(Math.random() * 255);
     let randomB = Math.floor(Math.random() * 255);
@@ -35,7 +82,6 @@ function generateColors() {
     colorSegment.style.backgroundColor = randomRGBColor;
     colorContainer.appendChild(colorSegment);
     let colorParagraph = document.createElement("p");
-    colorParagraph.textContent = randomRGBColor;
     colorSegment.appendChild(colorParagraph);
     colorSegment.style.display = "flex";
     colorSegment.style.justifyContent = "center";
@@ -45,16 +91,25 @@ function generateColors() {
     randomHEXColor = randomHEXColor.toUpperCase();
     let colorHexParagraph = document.createElement("p");
 
-    colorHexParagraph.style.fontSize = "50px";
-    colorParagraph.style.fontSize = "30px";
+
     colorHexParagraph.id = "hex"
-    colorParagraph.id = "rgb"
     colorHexParagraph.textContent = randomHEXColor;
+
     colorSegment.appendChild(colorHexParagraph);
     let span = document.createElement("span");
+    span.style.zIndex = 5000;
+    span.style.position = "absolute";
+    
+    colorHexParagraph.style.fontSize = "40px";
+    reportWindowSize();
+if (numberOfColors > 8 || window.innerWidth < 1200) {
+  colorHexParagraph.style.transform = "rotate(270deg)";
+}
+
+    span.style.borderBottom = "30px";
     colorSegment.appendChild(span);
+    colorSegment.id = "colorSegment"
     colorSegment.addEventListener("click", function () {
-      console.log(colorHexParagraph.textContent);
       navigator.clipboard.writeText(colorHexParagraph.textContent);
       span.style.backgroundColor = "white";
       span.style.fontSize = "30px";
@@ -81,7 +136,14 @@ document.addEventListener("keydown", function (event) {
   if (event.key === " ") {
     generateColors();
     reportWindowSize();
+  } else if (event.key === "-") {
+    if (numberOfColors > 1) {
+    lessColors();
+    }
+  } else if (event.key === "+") {
+    moreColors();
   }
+  
 });
 
 function componentToHex(c) {
@@ -94,40 +156,9 @@ function rgbToHex(r, g, b) {
 
 
 function reportWindowSize() {
-  let rgbElements = document.querySelectorAll("#rgb");
-  let hexElements = document.querySelectorAll("#hex");
-  console.log( window.innerWidth);
-  if (window.innerWidth > 1499) {
-    rgbElements.forEach(element => {
-      element.style.fontSize = "30px";
-    });
-    hexElements.forEach(element => {
-      element.style.fontSize = "50px";
-    })
-  }
-  if (window.innerWidth < 1200) {
-    rgbElements.forEach(element => {
-      element.style.fontSize = "20px";
-    });
-    hexElements.forEach(element => {
-      element.style.fontSize = "40px";
-    })
-  }
-  if (window.innerWidth < 900) {
-    rgbElements.forEach(element => {
-      element.style.fontSize = "20px";
-    });
-    hexElements.forEach(element => {
-      element.style.fontSize = "30px";
-    })
-  }
-  if (window.innerWidth < 750) {
-    rgbElements.forEach(element => {
-      element.style.fontSize = "10px";
-    });
-    hexElements.forEach(element => {
-      element.style.fontSize = "20px";
-    })
-  }
+  colorSegment = document.getElementById("colorSegment");
+  colorSegment.style.width = window.innerWidth / numberOfColors + "px";
+  console.log(numberOfColors)
+  let colorWidth = window.innerWidth / numberOfColors + "px";
 }
 window.addEventListener("resize", reportWindowSize);
