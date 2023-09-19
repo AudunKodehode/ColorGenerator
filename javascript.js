@@ -16,7 +16,7 @@ const buttonsContainer = document.createElement("div");
 page.appendChild(buttonsContainer);
 buttonsContainer.style.height = "5vh";
 
-let numberOfColors = 5;
+let numberOfColors = 5;;
 
 const lessButton = document.createElement("button");
 lessButton.textContent = "-";
