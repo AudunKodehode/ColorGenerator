@@ -66,7 +66,7 @@ function generateColors() {
   }
 }
 generateColors();
-
+reportWindowSize();
 
 body.style.height = "100vh";
 page.style.display = "flex";
@@ -80,6 +80,7 @@ document.addEventListener("keydown", function (event) {
   // Lukter etter tastepress og oppdaterer siden når space trykkes
   if (event.key === " ") {
     generateColors();
+    reportWindowSize();
   }
 });
 
