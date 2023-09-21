@@ -1,1 +1,1 @@
-Random colorgenerator using DOM manipulation
+Test it out here! [[https://audunkodehode.github.io/RandomCard/](https://audunkodehode.github.io/ColorGenerator/)https://audunkodehode.github.io/ColorGenerator/](https://audunkodehode.github.io/ColorGenerator/)https://audunkodehode.github.io/ColorGenerator/
