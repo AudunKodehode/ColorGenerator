@@ -92,6 +92,8 @@ let colorWidth = ((window.innerWidth) / numberOfColors) + "px";
     let colorHexParagraph = document.createElement("p");
 
 
+    
+    
     colorHexParagraph.id = "hex"
     colorHexParagraph.textContent = randomHEXColor;
 
